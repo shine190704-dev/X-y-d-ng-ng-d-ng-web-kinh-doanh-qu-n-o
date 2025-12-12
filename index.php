@@ -84,6 +84,19 @@ if (empty($segments)) {
     exit;
             }
 
+// ROUTE AUTH
+if ($segments[0] === 'auth') {
+
+    $controller = new AuthController();
+    $method = $segments[1] ?? 'login';
+    $params = array_slice($segments, 2);
+    require_once __DIR__ . '/views/layout/header.php';
+
+    call_user_func_array([$controller, $method], $params);
+
+    require_once __DIR__ . '/views/layout/footer.php';
+    exit;
+}
 
 
 // ROUTE PRODUCT

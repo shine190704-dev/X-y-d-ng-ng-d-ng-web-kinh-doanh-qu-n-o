@@ -1,0 +1,95 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #FFF5F5;
+    font-family: 'STIX Two Text', serif;
+}
+
+
+.auth-container {
+    width: 455px;
+    margin: 90px auto;
+    background: #FFECEC;
+    padding: 40px 55px 80px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+
+.auth-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #e38aa5;
+    margin-bottom: 30px;
+}
+
+
+.input-group input {
+    width: 100%;
+    padding: 15px;
+    background: #F7A8A8;
+    border-radius: 20px;
+    border: none;
+    font-size: 15px;
+    color: #fff;
+    margin-bottom: 18px;
+
+    outline: none;
+}
+
+.input-group input::placeholder {
+    color: #fff;
+}
+
+
+.auth-btn {
+    width: 220px;
+    padding: 12px;
+    background: #F098A0;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.auth-btn:hover {
+    background: #e98795;
+}
+
+
+.sub-text {
+    margin-top: 18px;
+    font-size: 15px;
+    color: #d38995;
+}
+
+.sub-text a {
+    color: #d38995;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.sub-text a:hover {
+    text-decoration: underline;
+}
+
+
+.error {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    color: #3A91D7;
+    font-size: 13px;
+    text-align: left;
+    padding-left: 5px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
