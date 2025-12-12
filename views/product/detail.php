@@ -73,7 +73,7 @@
 
         <button class="buy-now">Mua ngay</button>
 
-        <?php if (!empty($product['MoTa']): ?>
+        <?php if (!empty($product['MoTa'])): ?>
 
             <div class="product-desc">
                 <?= nl2br($product['MoTa']) ?>
