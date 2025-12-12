@@ -1,6 +1,6 @@
 <?php
 
-class AuthController {
+class   AuthController {
 
 
     // HÀM LOAD VIEW
@@ -55,17 +55,18 @@ class AuthController {
             $email    = trim($_POST['email'] ?? '');
             $matkhau  = trim($_POST['matkhau'] ?? '');
             $user     = $userModel->getUserByEmail($email);
-
+      
             if ($user) {
                 $dbPass = $user['MatKhau'];
                 $match = password_verify($matkhau, $dbPass) || ($dbPass === $matkhau);
-
+                   
                 if ($match) {
                     $_SESSION['KhachHangID'] = $user['KhachHangID'];
                     $_SESSION['Email']       = $user['Email'];
                     $_SESSION['HoTen']       = $user['HoTen'];
 
                     header("Location: /TNU");
+                     
                     exit;
                 } else {
                     $error = "Sai email hoặc mật khẩu!";
