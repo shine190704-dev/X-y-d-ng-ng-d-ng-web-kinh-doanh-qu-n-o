@@ -85,46 +85,32 @@ if (empty($segments)) {
             }
 
 
-// ========================
-// PRODUCT DETAIL – NO FUNCTIONS
-// ========================
 
-if ($segments[0] === 'product' && ($segments[1] ?? '') === 'detail' && isset($segments[2])) {
-    $id = intval($segments[2]);
+// ROUTE PRODUCT
+if ($segments[0] === 'product') {
 
-    $db = new Database();
-    $conn = $db->getConnection();
+    $controller = new ProductController();
+    $method = $segments[1] ?? 'all';
 
-    // Thông tin sản phẩm
-    $sql = "
-        SELECT sp.*, 
-               (SELECT DuongDan FROM hinhanhsanpham 
-                WHERE SanPhamID = sp.SanPhamID LIMIT 1) AS HinhAnh
-        FROM sanpham sp
-        WHERE sp.SanPhamID = $id
-    ";
-    $product = $conn->query($sql)->fetch_assoc();
+    require_once __DIR__ . '/views/layout/header.php';
 
-    if (!$product) {
-        http_response_code(404);
-        echo "404 - Sản phẩm không tồn tại";
+    // DM00 / DM01 / DM02
+    if (isset($segments[1]) && preg_match('/^DM[0-9]+$/', $segments[1])) {
+        $controller->category($segments[1]);
+        require_once __DIR__ . '/views/layout/footer.php';
         exit;
     }
 
-    // Hình ảnh
-    $imgSql = "SELECT DuongDan FROM hinhanhsanpham WHERE SanPhamID = $id";
-    $images = $conn->query($imgSql)->fetch_all(MYSQLI_ASSOC);
+    // detail
+    if ($method === 'detail') {
+        call_user_func_array([$controller, 'detail'], array_slice($segments, 2));
+        require_once __DIR__ . '/views/layout/footer.php';
+        exit;
+    }
 
-    // Biến thể
-    $varSql = "SELECT * FROM chitietsanpham WHERE SanPhamID = $id";
-    $variations = $conn->query($varSql)->fetch_all(MYSQLI_ASSOC);
-    $colors = array_unique(array_column($variations, "MauSac"));
-    $sizes  = array_unique(array_column($variations, "KichCo"));
+    // all
+    call_user_func_array([$controller, $method], array_slice($segments, 2));
 
-    $title = "Chi tiết sản phẩm";
-
-    require_once __DIR__ . '/views/layout/header.php';
-    require_once __DIR__ . "/views/product/detail.php";
     require_once __DIR__ . '/views/layout/footer.php';
     exit;
 }

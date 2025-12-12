@@ -12,24 +12,6 @@ class ProductModel {
     // ==============================
     // 1. Lấy sản phẩm theo ID
     // ==============================
-    public function getProductById($sanphamid) {
-        $stmt = $this->conn->prepare(
-            "SELECT 
-                sp.SanPhamID, 
-                sp.TenSanPham, 
-                sp.GiaSanPham, 
-                sp.HinhAnhDaiDien, 
-                sp.MoTa
-             FROM sanpham sp
-             WHERE sp.SanPhamID = ? AND sp.TrangThai = 1"
-        );
-        if (!$stmt) die("Lỗi SQL Prepare: " . $this->conn->error);
-
-        $stmt->bind_param("i", $sanphamid);
-        $stmt->execute();
-
-        return $stmt->get_result()->fetch_assoc();
-    }
 
     // ==============================
     // 2. Lấy danh sách hình ảnh
@@ -72,4 +54,75 @@ class ProductModel {
 
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+    // ==============================
+    // 1. Lấy sản phẩm theo ID
+    // 1. Lấy sản phẩm theo ID (ĐÃ BỔ SUNG LẤY DANH MỤC)
+// ==============================
+public function getProductById($sanphamid) {
+    $sql = "SELECT 
+                sp.SanPhamID,
+                sp.TenSanPham, 
+                sp.GiaSanPham, 
+                sp.HinhAnhDaiDien,
+                sp.MoTa,
+
+                -- LẤY DANH MỤC
+                ls.LoaiSanPhamID,
+                ls.TenLoai,
+                ls.MaLoai
+
+            FROM sanpham sp
+            LEFT JOIN loaisanpham ls 
+                ON sp.LoaiSanPhamID = ls.LoaiSanPhamID
+            WHERE sp.SanPhamID = ? 
+              AND sp.TrangThai = 1";
+
+    $stmt = $this->conn->prepare($sql);
+
+    if (!$stmt) {
+        die("Lỗi SQL Prepare: " . $this->conn->error);
+    }
+
+    $stmt->bind_param("i", $sanphamid);
+    $stmt->execute();
+
+    return $stmt->get_result()->fetch_assoc();
 }
+
+
+    // ==============================
+    // 4. Lấy sản phẩm theo loại
+    // ==============================
+    public function getProductsByType($loaisanphamid) {
+        $stmt = $this->conn->prepare(
+            "SELECT sp.SanPhamID, sp.TenSanPham, sp.GiaSanPham, sp.HinhAnhDaiDien, ls.TenLoai
+             FROM sanpham sp
+             LEFT JOIN loaisanpham ls ON sp.LoaiSanPhamID = ls.LoaiSanPhamID
+             WHERE sp.LoaiSanPhamID = ? AND sp.TrangThai = 1
+             ORDER BY sp.SanPhamID"
+        );
+        $stmt->bind_param("i", $loaisanphamid);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+       public function getAllProducts($onlyActive = true) {
+        if ($onlyActive) {
+            $sql = "SELECT sp.SanPhamID, sp.TenSanPham, sp.GiaSanPham, sp.HinhAnhDaiDien, ls.TenLoai
+                    FROM sanpham sp
+                    LEFT JOIN loaisanpham ls ON sp.LoaiSanPhamID = ls.LoaiSanPhamID
+                    WHERE sp.TrangThai = 1
+                    ORDER BY sp.SanPhamID";
+        } else {
+            $sql = "SELECT sp.SanPhamID, sp.TenSanPham, sp.GiaSanPham, sp.HinhAnhDaiDien, ls.TenLoai
+                    FROM sanpham sp
+                    LEFT JOIN loaisanpham ls ON sp.LoaiSanPhamID = ls.LoaiSanPhamID
+                    ORDER BY sp.SanPhamID";
+        }
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+}
+
+
