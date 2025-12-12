@@ -1,6 +1,6 @@
 <div class="auth-container">
     <h2 class="auth-title">ĐĂNG NHẬP</h2>
-    <form class="auth-form" method="POST" action="/TNU/assets/login">
+    <form class="auth-form" method="POST" action="/TNU/auth/login">
         <div class="input-group">
             <input type="text" name="email" id="email" placeholder="Email" required>
             <span class="error error-email"></span>
