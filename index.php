@@ -82,37 +82,52 @@ if (empty($segments)) {
     <?php
     require_once __DIR__ . '/views/layout/footer.php';
     exit;
-}
+            }
 
 
 // ========================
 // PRODUCT DETAIL – NO FUNCTIONS
 // ========================
-if ($segments[0] === 'product' && isset($segments[1]) && is_numeric($segments[1])) {
 
-    $id = intval($segments[1]);
+if ($segments[0] === 'product' && ($segments[1] ?? '') === 'detail' && isset($segments[2])) {
+    $id = intval($segments[2]);
+
     $db = new Database();
     $conn = $db->getConnection();
 
+    // Thông tin sản phẩm
     $sql = "
         SELECT sp.*, 
-        (SELECT DuongDan FROM hinhanhsanpham 
-         WHERE SanPhamID = sp.SanPhamID LIMIT 1) AS HinhAnh
+               (SELECT DuongDan FROM hinhanhsanpham 
+                WHERE SanPhamID = sp.SanPhamID LIMIT 1) AS HinhAnh
         FROM sanpham sp
         WHERE sp.SanPhamID = $id
     ";
-
     $product = $conn->query($sql)->fetch_assoc();
+
+    if (!$product) {
+        http_response_code(404);
+        echo "404 - Sản phẩm không tồn tại";
+        exit;
+    }
+
+    // Hình ảnh
+    $imgSql = "SELECT DuongDan FROM hinhanhsanpham WHERE SanPhamID = $id";
+    $images = $conn->query($imgSql)->fetch_all(MYSQLI_ASSOC);
+
+    // Biến thể
+    $varSql = "SELECT * FROM chitietsanpham WHERE SanPhamID = $id";
+    $variations = $conn->query($varSql)->fetch_all(MYSQLI_ASSOC);
+    $colors = array_unique(array_column($variations, "MauSac"));
+    $sizes  = array_unique(array_column($variations, "KichCo"));
 
     $title = "Chi tiết sản phẩm";
 
     require_once __DIR__ . '/views/layout/header.php';
     require_once __DIR__ . "/views/product/detail.php";
     require_once __DIR__ . '/views/layout/footer.php';
-
     exit;
 }
-
 
 // ========================
 // NOT FOUND
