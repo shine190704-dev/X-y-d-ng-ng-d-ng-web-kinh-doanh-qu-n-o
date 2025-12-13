@@ -47,7 +47,14 @@ class CartModel {
         $stmt->bind_param("ii", $gioHangID, $ctspID);
         $stmt->execute();
         $exist = $stmt->get_result()->fetch_assoc();
-
+        if ($exist) {
+            $sqlUpdate = "UPDATE giohangchitiet
+                          SET SoLuong = SoLuong + ?
+                          WHERE GioHangID = ? AND ChiTietSanPhamID = ?";
+            $stmt = $this->conn->prepare($sqlUpdate);
+            $stmt->bind_param("iii", $soLuong, $gioHangID, $ctspID);
+            return $stmt->execute();
+        }
         // Nếu chưa có thêm mới
         $sql = "INSERT INTO giohangchitiet (GioHangID, ChiTietSanPhamID, SoLuong, DonGia)
                 VALUES (?, ?, ?, ?)";
