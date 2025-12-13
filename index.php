@@ -33,7 +33,30 @@ $segments = ($url === '' || $url === 'index.php')
     ? []
     : explode('/', $url);
 
+// ========================
+// HÀM LẤY SỐ LƯỢNG GIỎ HÀNG
+// ========================
+if (!function_exists('getCartCount')) {
+    function getCartCount() {
 
+        if (!isset($_SESSION['KhachHangID'])) return 0;
+
+        require_once __DIR__ . "/models/CartModel.php";
+        $cartModel = new CartModel();
+
+        $cart = $cartModel->getCartByUser($_SESSION['KhachHangID']);
+        if (!$cart) return 0; //kiêm tra xem có giỏ hàng hay ch
+
+        $items = $cartModel->getItems($cart['GioHangID']);
+
+        $count = 0;
+        foreach ($items as $it) {
+            $count += $it['SoLuong'];
+        }
+
+        return $count;
+    }
+}
 // ========================
 // HOME PAGE – SHOW FEATURED PRODUCTS
 // ========================
@@ -150,6 +173,53 @@ if ($segments[0] === 'product') {
     require_once __DIR__ . '/views/layout/footer.php';
     exit;
 }
+
+if ($segments[0] === 'cart') {
+
+    $controller = new CartController();
+    $method = $segments[1] ?? 'view';
+    $params = array_slice($segments, 2);
+
+    // AJAX
+    if ($method === 'updateQty') {
+        call_user_func_array([$controller, $method], $params);
+        exit;
+    }
+
+    // add / delete
+    if (in_array($method, ['add', 'delete'])) {
+        call_user_func_array([$controller, $method], $params);
+        exit;
+    }
+
+    // view
+    $cartCount = getCartCount();
+    require_once __DIR__ . '/views/layout/header.php';
+
+    call_user_func_array([$controller, $method], $params);
+
+    require_once __DIR__ . '/views/layout/footer.php';
+    exit;
+}
+// AUTO CONTROLLER ROUTE
+$controllerName = ucfirst($segments[0]) . 'Controller';
+$controllerFile = __DIR__ . "/controllers/$controllerName.php";
+
+if (file_exists($controllerFile)) {
+
+    $controller = new $controllerName();
+    $method     = $segments[1] ?? 'index';
+    $params     = array_slice($segments, 2);
+
+    $cartCount = getCartCount();
+    require_once __DIR__ . '/views/layout/header.php';
+
+    call_user_func_array([$controller, $method], $params);
+
+    require_once __DIR__ . '/views/layout/footer.php';
+    exit;
+}
+
 
 // ========================
 // NOT FOUND

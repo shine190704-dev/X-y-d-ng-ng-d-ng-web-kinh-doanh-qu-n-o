@@ -19,6 +19,7 @@ if ($sort === 'price_asc') {
 } elseif ($sort === 'price_desc') {
     $orderBy = "ORDER BY GiaSanPham DESC";
 }
+
 //=========đến đây
 // ============================
 // CASE 1: TẤT CẢ SẢN PHẨM
