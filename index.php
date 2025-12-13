@@ -91,6 +91,22 @@ if (empty($segments)) {
     exit;
             }
 
+    // ROUTE SEARCH
+    if ($segments[0] === 'search') {
+
+        $controller = new ProductController();
+        $method = $segments[1] ?? 'index';
+
+        require_once __DIR__ . '/views/layout/header.php';
+
+        if ($method === 'index') {
+            $controller->search(); 
+        }
+
+        require_once __DIR__ . '/views/layout/footer.php';
+        exit;
+    }
+
 // ROUTE AUTH
 if ($segments[0] === 'auth') {
 

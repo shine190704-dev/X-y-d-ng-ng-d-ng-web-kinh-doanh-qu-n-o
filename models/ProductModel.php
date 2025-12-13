@@ -123,6 +123,33 @@ public function getProductById($sanphamid) {
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+
+    // ==============================
+    // 5. Tìm kiếm sản phẩm
+    // ==============================
+    public function searchProducts($keyword)
+    {
+        $keyword = '%' . $keyword . '%';
+
+        // SORT giống category
+        $orderBy = "ORDER BY SanPhamID ASC";
+
+        $sql = "
+            SELECT 
+                SanPhamID,
+                TenSanPham,
+                GiaSanPham,
+                HinhAnhDaiDien
+            FROM sanpham
+            WHERE TenSanPham LIKE ?
+        ";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("s", $keyword);
+        $stmt->execute();
+
+        return $stmt->get_result();
+    }
 }
 
 

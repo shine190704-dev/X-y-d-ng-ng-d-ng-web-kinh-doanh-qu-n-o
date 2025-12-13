@@ -138,4 +138,25 @@ public function detail($id) {
     ]);
 }
 
+    // TÌM KIẾM SẢN PHẨM
+    public function search()
+    {
+        $keyword = $_GET['keyword'] ?? '';
+        $sort    = $_GET['sort'] ?? 'default';
+
+        $keyword = trim($keyword);
+
+        if ($keyword === '') {
+            $products = [];
+        } else {
+            $model = new ProductModel();
+            $products = $model->searchProducts($keyword, $sort);
+        }
+
+        $this->loadView("product/search", "Kết quả tìm kiếm", [
+            "products" => $products,
+            "keyword"  => $keyword,
+            "sort"     => $sort
+        ]);
+    }
 }

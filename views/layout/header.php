@@ -21,7 +21,6 @@
     <link rel="stylesheet" href="/TNU/assets/css/detail-product.css">
     <link rel="stylesheet" href="/TNU/assets/css/cart.css">
     <link rel="stylesheet" href="/TNU/assets/css/checkout.css">
-
 </head>
 
 <body>
@@ -43,7 +42,7 @@ if (strpos($_SERVER['REQUEST_URI'], '/checkout') !== false) {
         <!-- SEARCH BOX -->
         <form class="search-box" method="GET" action="/TNU/search/index">
             <img src="/TNU/assets/images/search_icon.png" class="icon-search">
-            <input type="text" name="keyword" placeholder="Tìm kiếm..." required>
+            <input type="text" name="keyword" placeholder="Tìm kiếm..." value="<?= htmlspecialchars($_GET['keyword'] ?? '') ?>" required>
         </form>
 
         <!-- MENU -->
