@@ -1,4 +1,5 @@
 <?php
+
 spl_autoload_register(function ($class) {
     $paths = [
         __DIR__ . "/controllers/$class.php",
@@ -12,6 +13,12 @@ spl_autoload_register(function ($class) {
         }
     }
 });
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+
 
 require_once __DIR__ . '/database.php';
 
@@ -83,3 +90,8 @@ if (empty($segments)) {
 http_response_code(404);
 echo "404 - Không tìm thấy trang.";
 exit;
+require_once __DIR__ . '/views/layout/header.php';
+
+
+
+require_once __DIR__ . '/views/layout/footer.php';
