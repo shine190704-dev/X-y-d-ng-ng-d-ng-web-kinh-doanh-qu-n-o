@@ -41,7 +41,7 @@ if (empty($segments)) {
                 LIMIT 1
             ) AS HinhAnh
         FROM sanpham sp
-        LIMIT 3
+        LIMIT 20
     ";
 
     $noibat = $conn->query($sql);
