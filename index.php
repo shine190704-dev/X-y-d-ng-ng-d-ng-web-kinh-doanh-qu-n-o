@@ -34,6 +34,13 @@ $segments = ($url === '' || $url === 'index.php')
 // ======================== 
 if (empty($segments)) {
 
+require_once __DIR__ . '/views/layout/header.php'; 
+require_once __DIR__ . '/database.php'; 
+// ========================
+// HOME PAGE – SHOW FEATURED PRODUCTS
+// ======================== 
+if (empty($segments)) {
+
     $db   = new Database();
     $conn = $db->getConnection();
 
@@ -85,6 +92,7 @@ if (empty($segments)) {
     require_once __DIR__ . '/views/layout/footer.php';
     exit;
             }
+
             // ROUTE AUTH
 if ($segments[0] === 'auth') {
 
@@ -117,6 +125,7 @@ if (file_exists($controllerFile)) {
     require_once __DIR__ . '/views/layout/footer.php';
     exit;
 }
+
 
 
 require_once __DIR__ . '/views/layout/footer.php';
