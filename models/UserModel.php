@@ -32,6 +32,39 @@ public function getUserByEmail($email) {
     return $stmt->get_result()->fetch_assoc();
 }
 
+   
+   public function createUser($hoten, $ngaysinh, $sdt, $email, $matkhau, $vaiTro = 1)
+{
+    $sql = "INSERT INTO taikhoan (HoTen, NgaySinh, VaiTroID, SoDienThoai, Email, MatKhau)
+            VALUES (?, ?, ?, ?, ?, ?)";
+
+    $stmt = $this->conn->prepare($sql);
+    if (!$stmt) die("Lỗi SQL: " . $this->conn->error);
+
+    $hashed = password_hash($matkhau, PASSWORD_DEFAULT);
+    $stmt->bind_param("ssisss", $hoten, $ngaysinh, $vaiTro, $sdt, $email, $hashed);
+    $stmt->execute();
+    $taiKhoanID = $stmt->insert_id;
+
+    if ($vaiTro == 1) {
+        $sql2 = "INSERT INTO khachhang (TaiKhoanID, HoTen, Email, SoDienThoai, DiaChi, NgayTao)
+                 VALUES (?, ?, ?, ?, '', NOW())";
+
+        $stmt2 = $this->conn->prepare($sql2);
+        $stmt2->bind_param("isss", $taiKhoanID, $hoten, $email, $sdt);
+        $stmt2->execute();
+
+    } elseif ($vaiTro == 2) {
+        $sql3 = "INSERT INTO nhanvien (TaiKhoanID, HoTen, Email, SoDienThoai, DiaChi, NgayTao)
+                 VALUES (?, ?, ?, ?, '', NOW())";
+
+        $stmt3 = $this->conn->prepare($sql3);
+        $stmt3->bind_param("isss", $taiKhoanID, $hoten, $email, $sdt);
+        $stmt3->execute();
+    }
+
+    return true;
+}
 
   
 

@@ -51,6 +51,35 @@ class AuthController {
             "error" => $error
         ]);
     }
+      // ĐĂNG KÝ
+    public function register() {
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            require_once dirname(__DIR__) . '/models/UserModel.php';
+            $userModel = new UserModel();
+
+            $hoten    = trim($_POST['hoten'] ?? '');
+            $ngaysinh = trim($_POST['ngaysinh'] ?? '');
+            $sdt      = trim($_POST['sdt'] ?? '');
+            $email    = trim($_POST['email'] ?? '');
+            $matkhau  = trim($_POST['matkhau'] ?? '');
+
+            // Email trùng
+            if ($userModel->getUserByEmail($email)) {
+                return $this->loadView("auth/register.php", "Đăng ký", [
+                    "error" => "Email đã tồn tại!"
+                ]);
+            }
+
+            $userModel->createUser($hoten, $ngaysinh, $sdt, $email, $matkhau);
+
+            header("Location: /TNU/auth/login");
+            exit;
+        }
+
+        $this->loadView("auth/register.php", "Đăng ký");
+    }
 
 
  
