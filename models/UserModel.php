@@ -41,7 +41,7 @@ public function getUserByEmail($email) {
     $stmt = $this->conn->prepare($sql);
     if (!$stmt) die("Lỗi SQL: " . $this->conn->error);
 
-
+    $hashed = password_hash($matkhau, PASSWORD_DEFAULT);
     $stmt->bind_param("ssisss", $hoten, $ngaysinh, $vaiTro, $sdt, $email, $hashed);
     $stmt->execute();
     $taiKhoanID = $stmt->insert_id;
