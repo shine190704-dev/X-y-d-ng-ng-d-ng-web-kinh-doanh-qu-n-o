@@ -1,6 +1,6 @@
-# File: testmnm/.htaccess
+# File: TNU/.htaccess
 RewriteEngine On
-RewriteBase /testmnm/
+RewriteBase /TNU/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?url=$1 [QSA,L] 
