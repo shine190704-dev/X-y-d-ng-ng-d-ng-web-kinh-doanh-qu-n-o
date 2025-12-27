@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.addEventListener("click", () => {
 
             if (btn.dataset.type === "minus" && quantity > 1) {
-                quantity++;
+                quantity--;
             }
 
             if (btn.dataset.type === "plus") {
