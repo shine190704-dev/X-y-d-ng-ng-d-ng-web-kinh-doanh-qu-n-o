@@ -150,6 +150,11 @@ if ($segments[0] === 'cart') {
     $method = $segments[1] ?? 'view';
     $params = array_slice($segments, 2);
 
+    // AJAX
+    if ($method === 'updateQty') {
+        call_user_func_array([$controller, $method], $params);
+        exit;
+    }
 
     // add / delete
     if (in_array($method, ['add'])) {

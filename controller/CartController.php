@@ -83,5 +83,45 @@ class CartController {
 
     echo $count;
 }
+public function updateQty($id, $qty) {
+
+    // Trả JSON, không được render HTML
+    header('Content-Type: application/json');
+
+    if (!isset($_SESSION['KhachHangID'])) {
+        echo json_encode(["status" => "ERROR", "msg" => "NOT_LOGIN"]);
+        return;
+    }
+
+    $userId = $_SESSION['KhachHangID'];
+
+    // Update số lượng
+    $this->cartModel->updateQty($id, $qty);
+
+    // Lấy lại giỏ hàng
+    $cart = $this->cartModel->getCartByUser($userId);
+
+    if (!$cart) {
+        echo json_encode(["status" => "ERROR", "msg" => "NO_CART"]);
+        return;
+    }
+
+    $items = $this->cartModel->getItems($cart['GioHangID']);
+
+    // Tính lại tổng số lượng
+    $count = 0;
+    foreach ($items as $it) {
+        $count += $it['SoLuong'];
+    }
+
+    // Trả JSON đúng chuẩn
+    echo json_encode([
+        "status"    => "OK",
+        "cartCount" => $count
+    ]);
+
+    exit;
+}
+
 
 }
