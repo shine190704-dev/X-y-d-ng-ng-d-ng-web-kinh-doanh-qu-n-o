@@ -1,16 +1,12 @@
+
 <?php
-// ========================
-// SESSION
-// ========================
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+require_once __DIR__ . '/views/layout/header.php'; 
+require_once __DIR__ . '/database.php'; 
 
-require_once __DIR__ . '/database.php';
 
-// ========================
-// AUTOLOAD
-// ========================
 spl_autoload_register(function ($class) {
     $paths = [
         __DIR__ . "/controller/$class.php",
@@ -25,18 +21,16 @@ spl_autoload_register(function ($class) {
     }
 });
 
-// ========================
+
 // GET URL
-// ========================
 $url = $_GET['url'] ?? '';
 $url = rtrim($url, '/');
 $segments = ($url === '' || $url === 'index.php')
     ? []
     : explode('/', $url);
-
 // ========================
-// HOME PAGE
-// ========================
+// HOME PAGE – SHOW FEATURED PRODUCTS
+// ======================== 
 if (empty($segments)) {
 
     $db   = new Database();
@@ -55,10 +49,11 @@ if (empty($segments)) {
                 LIMIT 1
             ) AS HinhAnh
         FROM sanpham sp
-        LIMIT 7
+        LIMIT 20
     ";
 
     $noibat = $conn->query($sql);
+    $title  = "Sản phẩm";
 
     require_once __DIR__ . '/views/layout/header.php';
     ?>
@@ -77,37 +72,54 @@ if (empty($segments)) {
                     <p>
                         <a href="/TNU/product/detail/<?= $sp['SanPhamID'] ?>">
                             <?= $sp['TenSanPham'] ?>
-                        </a><br>
+                        </a>
+                        <br>
                         <?= number_format($sp['GiaSanPham'], 0, ',', '.') ?> VND
                     </p>
                 </div>
-            <?php endforeach; ?>
-        </section>
+            <?php endforeach; ?></section>
     </div>
 
     <?php
     require_once __DIR__ . '/views/layout/footer.php';
     exit;
-}
-
-// ========================
-// ROUTE AUTH
-// ========================
+            }
+            // ROUTE AUTH
 if ($segments[0] === 'auth') {
 
     $controller = new AuthController();
     $method = $segments[1] ?? 'login';
+  
     $params = array_slice($segments, 2);
-
     require_once __DIR__ . '/views/layout/header.php';
+
     call_user_func_array([$controller, $method], $params);
     require_once __DIR__ . '/views/layout/footer.php';
     exit;
 }
 
-// ========================
+// ROUTE PRODUCT
+if ($segments[0] === 'product') {
+    $controller = new ProductController();
+    $method = $segments[1] ?? 'all';
+
+    require_once __DIR__ . '/views/layout/header.php';
+ 
+    // detail
+    if ($method === 'detail') {
+        call_user_func_array([$controller, 'detail'], array_slice($segments, 2));
+        require_once __DIR__ . '/views/layout/footer.php';
+        exit;
+    }
+
+    // all
+    call_user_func_array([$controller, $method], array_slice($segments, 2));
+
+    require_once __DIR__ . '/views/layout/footer.php';
+    exit;
+}
+
 // AUTO CONTROLLER ROUTE
-// ========================
 $controllerName = ucfirst($segments[0]) . 'Controller';
 $controllerFile = __DIR__ . "/controller/$controllerName.php";
 
@@ -117,10 +129,14 @@ if (file_exists($controllerFile)) {
     $method     = $segments[1] ?? 'index';
     $params     = array_slice($segments, 2);
 
+
     require_once __DIR__ . '/views/layout/header.php';
+
     call_user_func_array([$controller, $method], $params);
+
     require_once __DIR__ . '/views/layout/footer.php';
     exit;
 }
+
 
 require_once __DIR__ . '/views/layout/footer.php';
