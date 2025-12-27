@@ -18,10 +18,10 @@
             <section class="product-grid">
                 <?php foreach ($results as $p): ?>
                     <div class="product-card">
-                        <img src="/DATT/assets/images/<?= htmlspecialchars($p['HinhAnhDaiDien'] ?? 'default.jpg') ?>" 
+                        <img src="/TNU/assets/images/<?= htmlspecialchars($p['HinhAnhDaiDien'] ?? 'default.jpg') ?>" 
                              alt="<?= htmlspecialchars($p['TenSanPham']) ?>">
                         <p>
-                            <a href="/DATT/product/<?= $p['SanPhamID'] ?>">
+                            <a href="/TNU/product/<?= $p['SanPhamID'] ?>">
                                 <?= htmlspecialchars($p['TenSanPham']) ?>
                             </a><br>
                             <?= number_format($p['GiaSanPham'], 0, ',', '.') ?> VNĐ

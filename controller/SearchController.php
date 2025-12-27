@@ -25,9 +25,9 @@ class SearchController {
             foreach ($allProducts as $product) {
                 $product_name_lower = mb_strtolower($product['TenSanPham'], 'UTF-8');
                 // mb_strpos hỗ trợ tiếng Việt
-               if ($product_name_lower === $keyword_lower) {
-    $results[] = $product;
-}
+              if (mb_strpos($product_name_lower, $keyword_lower) !== false) {
+                        $results[] = $product;
+                }   
             }
         }
         
