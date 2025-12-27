@@ -3,7 +3,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require_once __DIR__ . '/views/layout/header.php'; 
+
 require_once __DIR__ . '/database.php'; 
 
 
@@ -21,7 +21,30 @@ spl_autoload_register(function ($class) {
     }
 });
 
+// ========================
+// HÀM LẤY SỐ LƯỢNG GIỎ HÀNG
+// ========================
+if (!function_exists('getCartCount')) {
+    function getCartCount() {
 
+        if (!isset($_SESSION['KhachHangID'])) return 0;
+
+        require_once __DIR__ . "/models/CartModel.php";
+        $cartModel = new CartModel();
+
+        $cart = $cartModel->getCartByUser($_SESSION['KhachHangID']);
+        if (!$cart) return 0; //kiêm tra xem có giỏ hàng hay ch
+
+        $items = $cartModel->getItems($cart['GioHangID']);
+
+        $count = 0;
+        foreach ($items as $it) {
+            $count += $it['SoLuong'];
+        }
+
+        return $count;
+    }
+}
 // GET URL
 $url = $_GET['url'] ?? '';
 $url = rtrim($url, '/');
@@ -51,7 +74,7 @@ if (empty($segments)) {
         FROM sanpham sp
         LIMIT 20
     ";
-
+    $cartCount = getCartCount();
     $noibat = $conn->query($sql);
     $title  = "Sản phẩm";
 
@@ -89,7 +112,7 @@ if ($segments[0] === 'auth') {
 
     $controller = new AuthController();
     $method = $segments[1] ?? 'login';
-  
+      $cartCount = getCartCount();
     $params = array_slice($segments, 2);
     require_once __DIR__ . '/views/layout/header.php';
 
@@ -102,7 +125,7 @@ if ($segments[0] === 'auth') {
 if ($segments[0] === 'product') {
     $controller = new ProductController();
     $method = $segments[1] ?? 'all';
-
+    $cartCount = getCartCount();
     require_once __DIR__ . '/views/layout/header.php';
  
     // detail
@@ -119,6 +142,29 @@ if ($segments[0] === 'product') {
     exit;
 }
 
+// ROUTE CART
+
+if ($segments[0] === 'cart') {
+
+    $controller = new CartController();
+    $method = $segments[1] ?? 'view';
+    $params = array_slice($segments, 2);
+
+
+    // add / delete
+    if (in_array($method, ['add'])) {
+        call_user_func_array([$controller, $method], $params);
+        exit;
+    }
+
+    $cartCount = getCartCount();
+    require_once __DIR__ . '/views/layout/header.php';
+
+    call_user_func_array([$controller, $method], $params);
+
+    require_once __DIR__ . '/views/layout/footer.php';
+    exit;
+}
 // AUTO CONTROLLER ROUTE
 $controllerName = ucfirst($segments[0]) . 'Controller';
 $controllerFile = __DIR__ . "/controller/$controllerName.php";
@@ -129,7 +175,7 @@ if (file_exists($controllerFile)) {
     $method     = $segments[1] ?? 'index';
     $params     = array_slice($segments, 2);
 
-
+   $cartCount = getCartCount();
     require_once __DIR__ . '/views/layout/header.php';
 
     call_user_func_array([$controller, $method], $params);
