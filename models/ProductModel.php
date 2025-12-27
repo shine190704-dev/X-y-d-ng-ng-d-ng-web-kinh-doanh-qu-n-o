@@ -52,8 +52,17 @@ class ProductModel {
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
-
-   
+  // Lấy chi tiết sản phẩm (size, màu, giá, tồn kho)
+    public function getProductDetails($sanphamid) {
+        $stmt = $this->conn->prepare(
+            "SELECT ChiTietSanPhamID, MauSac, KichCo, Gia, SoLuongTon 
+             FROM chitietsanpham 
+             WHERE SanPhamID = ? 
+             ORDER BY MauSac, KichCo"
+        );
+        $stmt->bind_param("i", $sanphamid);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
 }
-
 

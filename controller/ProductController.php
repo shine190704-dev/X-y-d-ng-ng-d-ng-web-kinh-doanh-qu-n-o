@@ -39,5 +39,61 @@ class ProductController {
         $this->all();
     }
 
+ // CHI TIẾT SẢN PHẨM
 
+  // CHI TIẾT SẢN PHẨM
+
+public function detail($id) {
+
+    //LẤY THÔNG TIN SẢN PHẨM
+    $stmt = $this->conn->prepare(
+        "SELECT * FROM sanpham WHERE SanPhamID = ?"
+    );
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $product = $stmt->get_result()->fetch_assoc();
+
+    //LẤY HÌNH ẢNH
+    $stmtImg = $this->conn->prepare(
+        "SELECT DuongDan, LaHinhDaiDien 
+         FROM hinhanhsanpham 
+         WHERE SanPhamID = ?"
+    );
+    $stmtImg->bind_param("i", $id);
+    $stmtImg->execute();
+    $images = $stmtImg->get_result()->fetch_all(MYSQLI_ASSOC);
+    if (empty($images) && !empty($product["HinhAnhDaiDien"])) {
+    $images[] = [
+        "DuongDan" => $product["HinhAnhDaiDien"],
+        "LaHinhDaiDien" => 1
+    ];
+}
+
+
+    //LẤY BIẾN THỂ (SIZE + MÀU + TỒN KHO)
+    $stmtVar = $this->conn->prepare(
+        "SELECT ct.*, IFNULL(k.SoLuongTonKho, 0) AS SoLuongTonKho
+         FROM chitietsanpham ct
+         LEFT JOIN kho k ON k.ChiTietSanPhamID = ct.ChiTietSanPhamID
+         WHERE ct.SanPhamID = ?"
+    );
+    $stmtVar->bind_param("i", $id);
+    $stmtVar->execute();
+    $variationsRaw = $stmtVar->get_result()->fetch_all(MYSQLI_ASSOC);
+    $variations = array_map(function ($v) {
+        $v["MauSac"] = trim($v["MauSac"]);
+        $v["KichCo"] = trim($v["KichCo"]);
+        return $v;
+    }, $variationsRaw);
+
+    $colors = array_values(array_unique(array_column($variations, "MauSac")));
+    $sizes  = array_values(array_unique(array_column($variations, "KichCo")));
+    $this->loadView("product/detail", $product["TenSanPham"], [
+        "product"    => $product,
+        "images"     => $images,
+        "colors"     => $colors,
+        "sizes"      => $sizes,
+        "variations" => $variations
+    ]);
+}
 }
