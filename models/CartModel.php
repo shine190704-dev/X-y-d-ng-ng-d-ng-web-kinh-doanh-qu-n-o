@@ -93,4 +93,13 @@ class CartModel {
         $stmt->execute();
         return $stmt->get_result();
     }
+
+
+    public function updateQty($id, $qty) {
+    $sql = "UPDATE giohangchitiet SET SoLuong = ? WHERE GioHangChiTietID = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("ii", $qty, $id);
+    return $stmt->execute();
+    }
+
 }
