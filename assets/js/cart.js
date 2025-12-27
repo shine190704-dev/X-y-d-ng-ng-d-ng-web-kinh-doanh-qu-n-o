@@ -30,7 +30,7 @@ function updateQty(id, change, qtyEl, price, lineTotalEl) {
     let current = parseInt(qtyEl.textContent);
     let updated = current + change;
 
-  
+    if (updated < 1) return;
 
     fetch(`/TNU/cart/updateQty/${id}/${updated}`)
         .then(res => res.json())
