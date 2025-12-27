@@ -91,7 +91,7 @@ class CheckoutController {
         $cartItems = $itemsResult->fetch_all(MYSQLI_ASSOC); 
         
         if (empty($cartItems)) {
-             header('Location: //cart/view?error=empty_cart');
+             header('Location: /TNU/cart/view?error=empty_cart');
              return;
         }
 
@@ -119,7 +119,7 @@ class CheckoutController {
 
         if ($orderId) {
             //CẬP NHẬT TRẠNG THÁI GIỎ HÀNG
-            $this->cartModel->updateCartStatus($gioHangID, 0); 
+            $this->cartModel->updateCartStatus($gioHangID, 1); 
             header('Location: /TNU/checkout/success?order_id=' . $orderId);
         } else {
             header('Location: /TNU/checkout?error=db_error');
