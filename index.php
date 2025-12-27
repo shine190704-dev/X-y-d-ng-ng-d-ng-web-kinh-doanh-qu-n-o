@@ -1,4 +1,3 @@
-
 <?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -170,6 +169,44 @@ if ($segments[0] === 'cart') {
     require_once __DIR__ . '/views/layout/footer.php';
     exit;
 }
+
+// ROUTE CHECKOUT
+if ($segments[0] === 'checkout') {
+
+    $controllerName = 'CheckoutController';
+    $method = $segments[1] ?? 'index';
+    
+    // Yêu cầu Controller
+    require_once __DIR__ . '/controller/CheckoutController.php';
+    $controller = new $controllerName();
+
+    // ĐẶT HÀNG 
+    if ($method === 'process') {
+        $controller->processOrder(); 
+        exit;
+    } 
+    
+    else if($method === 'index') {
+        
+        $cartCount = getCartCount();
+        require_once __DIR__ . '/views/layout/header.php';
+        $controller->index();
+        require_once __DIR__ . '/views/layout/footer.php';
+        exit;       
+    }else if($method === 'success') {
+        $cartCount = getCartCount();
+        require_once __DIR__ . '/views/layout/header.php';
+        $controller->success(); 
+        require_once __DIR__ . '/views/layout/footer.php';
+        exit;
+        
+    } else {
+        http_response_code(404);
+        echo "404 - Phương thức '{$method}' trong Checkout không tồn tại.";
+        exit;
+    }
+}
+
 // AUTO CONTROLLER ROUTE
 $controllerName = ucfirst($segments[0]) . 'Controller';
 $controllerFile = __DIR__ . "/controller/$controllerName.php";

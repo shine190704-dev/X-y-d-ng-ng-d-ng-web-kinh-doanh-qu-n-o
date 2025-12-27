@@ -71,7 +71,6 @@
             </div>
 
             <div class="cart-actions">
-                <a href="/TNU/product/all" class="cart-btn">TIẾP TỤC MUA SẮM</a>
                 <a href="/TNU/checkout" class="cart-btn">THANH TOÁN</a>
             </div>
 

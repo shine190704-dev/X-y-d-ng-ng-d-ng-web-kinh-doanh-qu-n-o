@@ -101,5 +101,10 @@ class CartModel {
     $stmt->bind_param("ii", $qty, $id);
     return $stmt->execute();
     }
-
+      public function updateCartStatus($gioHangID, $trangThai) {
+        $sql = "UPDATE giohang SET TrangThai = ? WHERE GioHangID = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ii", $trangThai, $gioHangID);
+        return $stmt->execute();
+    }
 }
