@@ -122,6 +122,22 @@ public function updateQty($id, $qty) {
 
     exit;
 }
+  public function delete($itemId) {
 
+        if (!isset($_SESSION['KhachHangID'])) {
+            header("Location: /TNU/auth/login");
+            exit;
+        }
+
+        if (!$itemId) {
+            echo "Không tìm thấy sản phẩm để xoá.";
+            exit;
+        }
+
+        $this->cartModel->removeItem($itemId);
+
+        header("Location: /TNU/cart/view");
+        exit;
+    }
 
 }
