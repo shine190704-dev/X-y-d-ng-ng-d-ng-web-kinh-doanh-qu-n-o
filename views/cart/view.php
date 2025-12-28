@@ -1,3 +1,8 @@
+<?php
+if ($cartItems instanceof mysqli_result) {
+    $cartItems = $cartItems->fetch_all(MYSQLI_ASSOC);
+}
+?>
 <div class="cart-page">
     <div class="cart-container">
 
