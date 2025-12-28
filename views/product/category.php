@@ -60,7 +60,14 @@ if ($isAll) {
     <div class="all-header">
         <h2 class="all-title"><?= $tenLoai ?></h2>
         <!--sưa đonạ này-->
-        
+              <div class="sort-box">
+            <span>Sắp xếp theo:</span>
+            <select onchange="window.location.href = window.location.pathname + '?sort=' + this.value">
+                <option value="default" <?= $sort === 'default' ? 'selected' : '' ?>>Sự liên quan</option>
+                <option value="price_asc" <?= $sort === 'price_asc' ? 'selected' : '' ?>>Giá tăng dần</option>
+                <option value="price_desc" <?= $sort === 'price_desc' ? 'selected' : '' ?>>Giá giảm dần</option>
+            </select>
+        </div>
         <!--đến đay-->
     </div>
 
