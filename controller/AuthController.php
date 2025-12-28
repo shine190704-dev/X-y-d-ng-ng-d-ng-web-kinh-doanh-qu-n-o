@@ -98,5 +98,10 @@ class AuthController {
         ]);
     }
 
- 
+   // ĐĂNG XUẤT
+    public function logout() {
+        
+        header("Location: /testmnm/auth/login");
+        exit;
+    }
 }
