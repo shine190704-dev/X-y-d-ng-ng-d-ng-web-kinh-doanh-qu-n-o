@@ -107,4 +107,12 @@ class CartModel {
         $stmt->bind_param("ii", $trangThai, $gioHangID);
         return $stmt->execute();
     }
+     // XÓA SẢN PHẨM
+    public function removeItem($id) {
+        $sql = "DELETE FROM giohangchitiet WHERE GioHangChiTietID = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        return $stmt->execute();
+    }
+    
 }
