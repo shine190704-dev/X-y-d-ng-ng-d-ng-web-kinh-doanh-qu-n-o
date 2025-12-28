@@ -2,6 +2,6 @@
 session_start();
 session_destroy();
 unset($_SESSION['Email']);
-header("Location: /testmnm/index.php");
+header("Location: /TNU/index.php");
 exit;
 ?>

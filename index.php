@@ -126,7 +126,12 @@ if ($segments[0] === 'product') {
     $method = $segments[1] ?? 'all';
     $cartCount = getCartCount();
     require_once __DIR__ . '/views/layout/header.php';
- 
+   // DM00 / DM01 / DM02
+    if (isset($segments[1]) && preg_match('/^DM[0-9]+$/', $segments[1])) {
+        $controller->category($segments[1]);
+        require_once __DIR__ . '/views/layout/footer.php';
+        exit;
+    }
     // detail
     if ($method === 'detail') {
         call_user_func_array([$controller, 'detail'], array_slice($segments, 2));
