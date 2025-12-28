@@ -1,0 +1,114 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #FFF8F6;
+    font-family: 'STIX Two Text', serif;
+}
+.main-content {
+    background: #FFF8F6 !important;
+}
+
+.main-content {
+    padding-bottom: 300px; 
+}
+
+
+
+.account-container {
+    max-width: 1200px;
+    margin: 80px auto;
+    display: flex;
+    gap: 120px;
+    padding: 0 40px;
+}
+
+.account-left {
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.account-left a {
+    font-size: 17px;
+    color: #3A91D7;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.account-left a:hover {
+    color: #3A91D7;
+}
+
+.account-left .active {
+    color: #3A91D7;
+}
+
+
+.account-right {
+    flex: 1;
+    margin-top: -10px;
+}
+
+
+.account-right h2 {
+    text-align: center;
+    font-size: 22px;
+    color: #3A91D7;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+
+.account-right hr {
+    width: 100%;
+    border: none;
+    height: 1px;
+    background: #f5b7c3;
+    margin-bottom: 35px;
+}
+
+.info-row {
+    display: flex;
+    margin-bottom: 18px;
+    align-items: center;
+    gap: 20px;
+}
+
+.info-row span {
+    width: 150px;
+    color: #3A91D7;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.info-row p {
+    color: #6b6b6b;
+    font-size: 16px;
+}
+
+
+.main-content,
+.auth-container,
+.auth-wrapper,
+.login-wrapper,
+.account-container {
+    background: #FFF8F6 !important;
+}
+
+body {
+    background-color: #FFF8F6 !important;
+}
+
+.main-content {
+    background-color: #FFF8F6 !important;
+}
+
+
+
+
+
