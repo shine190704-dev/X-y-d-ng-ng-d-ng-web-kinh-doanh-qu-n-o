@@ -45,9 +45,26 @@ if (strpos($_SERVER['REQUEST_URI'], '/checkout') !== false) {
             <input type="text" name="keyword" placeholder="Tìm kiếm..." value="<?= htmlspecialchars($_GET['keyword'] ?? '') ?>" required>
         </form>
 
-        <!-- MENU -->
-        <nav class="menu">
-            
+         <nav class="menu">
+            <?php
+       $db = new Database();
+        $conn = $db->getConnection();
+
+            // Lấy danh mục
+            $sql = "SELECT * FROM loaisanpham ORDER BY (MaLoai = 'DM00') DESC, LoaiSanPhamID ASC";
+            $categories = $conn->query($sql);
+
+            $currentUrl = $_GET['url'] ?? '';
+            ?>
+
+            <?php foreach ($categories as $cate): ?>
+                <a href="/TNU/product/<?= $cate['MaLoai'] ?>"
+                   class="<?= ($currentUrl === 'product/' . $cate['MaLoai']) ? 'active' : '' ?>">
+                    <?= $cate['TenLoai'] ?>
+                </a>
+            <?php endforeach; ?>
+        </nav>
+
 
         <!-- CART + USER ICON -->
         <div class="header-right">
