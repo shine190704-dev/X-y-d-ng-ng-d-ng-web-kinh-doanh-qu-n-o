@@ -100,7 +100,9 @@ public function detail($id) {
 
     public function category($maLoai) {
 
-       
+          if ($maLoai === "all" || $maLoai === "DM00") {
+            return $this->all();
+        }
         $stmt = $this->conn->prepare(
             "SELECT TenLoai, LoaiSanPhamID 
              FROM loaisanpham 
