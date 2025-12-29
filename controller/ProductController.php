@@ -96,4 +96,43 @@ public function detail($id) {
         "variations" => $variations
     ]);
 }
+ // DANH MỤC SẢN PHẨM
+
+    public function category($maLoai) {
+
+          if ($maLoai === "all" || $maLoai === "DM00") {
+            return $this->all();
+        }
+        $stmt = $this->conn->prepare(
+            "SELECT TenLoai, LoaiSanPhamID 
+             FROM loaisanpham 
+             WHERE MaLoai = ?"
+        );
+        $stmt->bind_param("s", $maLoai);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 0) {
+            echo "<h2>Danh mục không tồn tại!</h2>";
+            return;
+        }
+
+        $row = $result->fetch_assoc();
+        $tenLoai = $row["TenLoai"];
+        $loaiID  = $row["LoaiSanPhamID"];
+
+
+        $stmt2 = $this->conn->prepare(
+            "SELECT * FROM sanpham WHERE LoaiSanPhamID = ?"
+        );
+        $stmt2->bind_param("i", $loaiID);
+        $stmt2->execute();
+        $products = $stmt2->get_result();
+
+        $this->loadView("product/category", $tenLoai, [
+            "tenLoai" => $tenLoai,
+            "products" => $products,
+            "category_id" => $maLoai
+        ]);
+    }
 }

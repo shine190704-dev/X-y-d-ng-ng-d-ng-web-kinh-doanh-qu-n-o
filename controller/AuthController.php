@@ -81,6 +81,28 @@ class AuthController {
         $this->loadView("auth/register.php", "Đăng ký");
     }
 
+ public function account() {
 
- 
+        if (empty($_SESSION['Email'])) {
+            header("Location: /TNU/auth/login");
+            exit;
+        }
+
+        require_once dirname(__DIR__) . '/models/UserModel.php';
+        $userModel = new UserModel();
+
+        $user = $userModel->getUserByEmail($_SESSION['Email']);
+
+        $this->loadView("auth/account.php", "Tài khoản của bạn", [
+            "user" => $user
+        ]);
+    }
+
+     // ĐĂNG XUẤT
+    public function logout() {
+        session_destroy();
+        header("Location: /TNU/auth/login");
+        exit;
+    }
+
 }

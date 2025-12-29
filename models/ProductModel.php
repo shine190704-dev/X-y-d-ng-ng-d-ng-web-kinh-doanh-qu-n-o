@@ -64,5 +64,18 @@ class ProductModel {
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+         // Lấy sản phẩm theo loại
+    public function getProductsByType($loaisanphamid) {
+        $stmt = $this->conn->prepare(
+            "SELECT sp.SanPhamID, sp.TenSanPham, sp.GiaSanPham, sp.HinhAnhDaiDien, ls.TenLoai
+             FROM sanpham sp
+             LEFT JOIN loaisanpham ls ON sp.LoaiSanPhamID = ls.LoaiSanPhamID
+             WHERE sp.LoaiSanPhamID = ? AND sp.TrangThai = 1
+             ORDER BY sp.SanPhamID"
+        );
+        $stmt->bind_param("i", $loaisanphamid);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
 }
 

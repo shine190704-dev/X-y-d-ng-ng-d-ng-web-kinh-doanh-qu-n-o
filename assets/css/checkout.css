@@ -1,0 +1,298 @@
+/* ======================== RESET ======================== */
+body {
+    background-color: #FFF8F6;
+    font-family: Arial, sans-serif;
+    color: #3A91D7;
+}
+
+.checkout-header h1 {
+    padding-left: 20px;
+}
+
+
+
+/* ==================== WRAPPER ===================== */
+
+
+.checkout-page-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    padding-top: 0 !important;
+}
+
+
+/* ==================== HEADER ===================== */
+.checkout-header {
+    background-color: transparent !important;
+    color: #3A91D7;
+    padding: 10px 0;
+}
+
+.checkout-header h1 {
+    font-size: 28px;
+    margin: 0;
+    text-align: left;
+}
+
+/* ==================== LAYOUT ===================== */
+.checkout-container {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    gap: 30px;
+    background-color: #FFF8F6;
+    border-radius: 8px;
+}
+
+
+
+
+
+/* ==================== LEFT COLUMN ===================== */
+.checkout-info {
+    flex: 1;
+    padding: 30px;
+    background-color: #FFF8F6; /* nền trắng full */
+}
+
+.checkout-info h3 {
+    font-size: 20px;
+    color: #3A91D7;
+    margin-bottom: 12px;
+}
+
+.checkout-info input[type="text"],
+.checkout-info select,
+.checkout-info textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px rgba(253,170,170,0.33);
+    background-color: white;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.checkout-info input::placeholder,
+.checkout-info textarea::placeholder {
+    color: #3A91D7;
+}
+
+.address-row {
+    display: flex;
+    gap: 15px;
+}
+
+textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #E0E0E0;
+    margin: 20px 0;
+}
+
+/* ==================== RADIO OPTIONS ===================== */
+.radio-option {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: #3A91D7;
+}
+
+.radio-option input[type="radio"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #3A91D7;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.radio-option input[type="radio"]:checked::before {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 8px;
+    height: 8px;
+    background: #3A91D7;
+    border-radius: 50%;
+}
+
+/* ==================== RIGHT COLUMN ===================== */
+.order-summary {
+    flex: 1;
+    padding: 30px;
+    background-color: #FFF8F6;
+}
+
+.order-summary .product-item img {
+    width: 90px;
+    height: 100px;
+    border-radius: 8px;
+}
+
+
+.product-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.product-item:last-child {
+    border-bottom: none;
+}
+
+.product-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    margin-right: 15px;
+    border-radius: 4px;
+}
+
+.item-details p {
+    margin: 2px 0;
+    color: #3A91D7;
+}
+
+.item-name {
+    font-weight: bold;
+}
+
+/* ==================== DISCOUNT ===================== */
+.discount-box {
+    display: flex;
+    margin: 20px 0;
+}
+
+.discount-box input {
+    flex-grow: 1;
+    padding: 12px;
+    border: 1px solid #E0E0E0;
+    border-radius: 4px 0 0 4px;
+    color: #3A91D7;
+}
+
+.apply-btn {
+    padding: 12px 20px;
+    background-color: #3A91D7;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* ==================== TOTALS ===================== */
+.totals-section {
+    border-top: 1px solid #E0E0E0;
+    padding-top: 15px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: #3A91D7;
+}
+
+.total-amount {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.item-price {
+    margin-left: auto; 
+    padding-left: 10px;
+    padding-top: 20px;  
+    color: #3A91D7;
+    white-space: nowrap;
+}
+
+
+
+/* ==================== BUTTON ===================== */
+
+.complete-order-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #3A91D7;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 4px #3A91D7 ;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.discount-box input:focus {
+    outline: none !important;
+    border: 2px solid #3A91D7 !important;
+}
+
+
+
+
+.checkout-info input[type="text"],
+.checkout-info select,
+.checkout-info textarea {
+    background-color: rgba(253,170,170,0.33);
+    border-radius: 30px; 
+}
+
+.checkout-info textarea {
+    resize: none !important;   /* Tắt resize nên không còn góc đen */
+    outline: none !important;  /* Xóa viền đen khi focus nếu có */
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    padding: 15px 18px;
+
+    background-color: rgba(253,170,170,0.33) !important;
+    border: 1px rgba(253,170,170,0.33);
+    border-radius: 30px;
+    color: #3A91D7;
+    margin-bottom: 15px;
+}
+
+
+
+.checkout-info input[type="text"]:focus,
+.checkout-info select:focus,
+.checkout-info textarea:focus {
+    outline: none;  
+    border: 2px solid #3A91D7; 
+}
+
+.complete-order-btn {
+    border: 2px solid #3A91D7;
+    border-radius: 30px;
+}
+
+
+.checkout-info select {
+    color: #3A91D7;
+}
+
+.error-msg {
+    color: red;
+    font-size: 14px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+}
